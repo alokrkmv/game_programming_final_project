@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - question1Block
+  - Almond
+  - q1
+  - answer1Option1
+  - answer2Option2
+  - answer1Option2
   layers:
   - Default
   - TransparentFX
