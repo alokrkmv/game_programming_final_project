@@ -10,6 +10,7 @@ TagManager:
   - answer1Option1
   - answer2Option2
   - answer1Option2
+  - question1Block2
   layers:
   - Default
   - TransparentFX

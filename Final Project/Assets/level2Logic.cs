@@ -10,15 +10,19 @@ public class level2Logic : MonoBehaviour
     private CharacterController character_controller;
     public Vector3 movement_direction;
     public float velocity;
-    public int num_lives;
-    public bool has_won;
-    public bool isDead;
+    public bool hasCollidedWithBlock = false;
+    public Vector3 playerPosition;
+    public int numberOfLives;
+    public Vector3 lastCorrectPlayerPosition;
+    public bool TrollCollision = false;
+    public bool playerLost = false;
 
 
 
     //initialising all the UI elements -- questionText abd Buttons as answers
 
     public Text question1Text;
+    public Text livesText;
     public Button answer1Option1;
     public Button answer1Option2;
     public GameObject question1Block;
@@ -33,6 +37,7 @@ public class level2Logic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        numberOfLives = 5;
         animation_controller = GetComponent<Animator>();
         character_controller = GetComponent<CharacterController>();
         answer1Option1.gameObject.SetActive(false);
@@ -45,6 +50,9 @@ public class level2Logic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        livesText.enabled = true;
+        livesText.text = "Lives Left: " + numberOfLives;
+
         //condition if player 2 is dead
         //condition if player has won
         animation_controller.SetBool("NoKey",true);
@@ -105,7 +113,31 @@ public class level2Logic : MonoBehaviour
             character_controller.Move(lower_character);
         }
 
+
+        if(TrollCollision == true)
+        {
+            Debug.Log("we have successfully come here now");
+            numberOfLives = numberOfLives - 1;
+            if(numberOfLives <= 0)
+            {
+                playerLost = true;
+            }
+            character_controller.enabled = false;
+            transform.position = lastCorrectPlayerPosition;
+            character_controller.enabled = true;
+            Debug.Log("resets to");
+            Debug.Log(transform.position);
+            //activate the blocks again
+            question1Block.SetActive(true);
+            question1Stopper.SetActive(true);
+            question1Stopper2.SetActive(true);
+            question1Block2.SetActive(true);
+            TrollCollision = false;
+            hasCollidedWithBlock = false;
+        }
+
         character_controller.Move(movement_direction * velocity * Time.deltaTime);
+        playerPosition = transform.position;
     }
 
     // void OnTriggerEnter(Collision collide )
@@ -123,11 +155,20 @@ public class level2Logic : MonoBehaviour
 
         if(col.tag == "question1Block")
         {
+            lastCorrectPlayerPosition = transform.position;
+
             Debug.Log("collided");
-            
+            Debug.Log(lastCorrectPlayerPosition);
             answer1Option1.gameObject.SetActive(true);
             answer1Option2.gameObject.SetActive(true);
-            question1Text.enabled = true; 
+            question1Text.enabled = true;
+        }
+
+        if(col.tag == "question1Block2")
+        {
+            //enemy to start attacking;
+            Debug.Log("here we are");
+            hasCollidedWithBlock = true;
         }
         
         // if(answer1Option1.is_clicked)
@@ -177,7 +218,6 @@ public class level2Logic : MonoBehaviour
         else if(e == "answer1Option2")
         {
             Debug.Log("answer 2 has been selected");
-            question1Block2.SetActive(false);
             question1Stopper2.SetActive(false);
             //attack of npc
             //take away life
