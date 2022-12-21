@@ -27,10 +27,15 @@ public class level2Logic : MonoBehaviour
     public bool TrollCollision5 = false;
     public bool playerLost = false;
 
-    // questions and answers here:
-
-
-
+    // Audio elements
+    public AudioSource audioSource_UI;
+    public AudioSource audioSource_Button;
+    public AudioSource audioSource_Win;
+    public AudioSource audioSource_Ouch;
+    //public AudioClip UIClick;
+    // public AudioClip buttonClick;
+    // public AudioClip win;
+    // public AudioClip ouch;
 
 
     //initialising all the UI elements -- questionText abd Buttons as answers
@@ -89,7 +94,7 @@ public class level2Logic : MonoBehaviour
 
     Dictionary<int , List<string>> randomQuestions = new Dictionary<int, List<string>>();
     List<int> questionsSelected = new List<int>();
-
+    
 
 
     // Start is called before the first frame update
@@ -127,8 +132,6 @@ public class level2Logic : MonoBehaviour
         answer1Option1.gameObject.SetActive(false);
         answer1Option2.gameObject.SetActive(false);
         question1Text.enabled = false;
-        // answer1Option1.onClick.AddListener(()=> TaskOnClick(answer1Option1.gameObject.tag));
-        // answer1Option2.onClick.AddListener(()=> TaskOnClick(answer1Option2.gameObject.tag));
 
         answer1Option1.onClick.AddListener(()=> TaskOnClick(answer1Option1.gameObject.tag));
         answer1Option2.onClick.AddListener(()=> TaskOnClick(answer1Option2.gameObject.tag));
@@ -177,6 +180,7 @@ public class level2Logic : MonoBehaviour
 
         if(won == true)
         {
+            audioSource_Win.Play();
             correctAnswerText.text = "Congratulations!!! You successfully finished Level 2";
             correctAnswerText.enabled = true;
         }
@@ -247,6 +251,7 @@ public class level2Logic : MonoBehaviour
 
         if(TrollCollision1 == true)
         {
+            audioSource_Ouch.Play();
             Debug.Log("we have successfully come here now");
             numberOfLives = numberOfLives - 1;
             if(numberOfLives <= 0)
@@ -267,6 +272,7 @@ public class level2Logic : MonoBehaviour
         
         else if(TrollCollision2 == true)
         {
+            audioSource_Ouch.Play();
             numberOfLives = numberOfLives - 1;
             if(numberOfLives <= 0)
             {
@@ -286,6 +292,7 @@ public class level2Logic : MonoBehaviour
 
         else if(TrollCollision3 == true)
         {
+            audioSource_Ouch.Play();
             numberOfLives = numberOfLives - 1;
             if(numberOfLives <= 0)
             {
@@ -305,6 +312,7 @@ public class level2Logic : MonoBehaviour
 
         else if(TrollCollision4 == true)
         {
+            audioSource_Ouch.Play();
             numberOfLives = numberOfLives - 1;
             if(numberOfLives <= 0)
             {
@@ -324,6 +332,7 @@ public class level2Logic : MonoBehaviour
 
         else if(TrollCollision5 == true)
         {
+            audioSource_Ouch.Play();
             numberOfLives = numberOfLives - 1;
             if(numberOfLives <= 0)
             {
@@ -383,9 +392,8 @@ public class level2Logic : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        // new Vector3 stoppingPositionOfPlayer  = transform.position;
+        audioSource_UI.Play();
 
-        
         if(col.tag == "question1Block"||col.tag == "question2Block" ||col.tag =="question3Block"||col.tag =="question4Block"||col.tag =="question5Block")
         {
             wrongAnswerText.enabled = false;
@@ -469,6 +477,8 @@ public class level2Logic : MonoBehaviour
     }
 
     void TaskOnClick(string e){
+
+        audioSource_Button.Play();
 
         if (questionindex == 1){
             question1Blocker.SetActive(false);
