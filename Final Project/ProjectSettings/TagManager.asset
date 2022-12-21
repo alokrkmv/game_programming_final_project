@@ -11,6 +11,16 @@ TagManager:
   - answer2Option2
   - answer1Option2
   - question1Block2
+  - question2Block
+  - question3Block
+  - question4Stopper1
+  - question4Stopper2
+  - question5Stopper1
+  - question5Stopper2
+  - question3Stopper1
+  - question3Stopper2
+  - question4Block
+  - question5Block
   layers:
   - Default
   - TransparentFX

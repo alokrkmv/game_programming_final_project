@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System; 
 
 public class level2Logic : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class level2Logic : MonoBehaviour
     public Vector3 lastCorrectPlayerPosition;
     public bool TrollCollision = false;
     public bool playerLost = false;
+    public int currentQuestionStage = 1;
 
 
 
@@ -25,13 +27,41 @@ public class level2Logic : MonoBehaviour
     public Text livesText;
     public Button answer1Option1;
     public Button answer1Option2;
+
+
     public GameObject question1Block;
     public GameObject question1Block1;
     public GameObject question1Block2;
+
+    //all stoppers
     public GameObject question1Stopper;
     public GameObject question1Stopper1;
     public GameObject question1Stopper2;
 
+    public GameObject question2Stopper;
+    public GameObject question2Stopper1;
+    public GameObject question2Stopper2;
+
+    public GameObject question3Stopper;
+    public GameObject question3Stopper1;
+    public GameObject question3Stopper2;
+
+    public GameObject question4Stopper;
+    public GameObject question4Stopper1;
+    public GameObject question4Stopper2;
+
+    public GameObject question5Stopper;
+    public GameObject question5Stopper1;
+    public GameObject question5Stopper2;
+
+    int questionindex;
+
+    //question index, list of stopper game objects for that crossroad
+    Dictionary<int, List<GameObject>> blockMapping =  new Dictionary<int, List<GameObject>>(); 
+
+    Dictionary<int, List<string>> questionMapping =  new Dictionary<int, List<string>>(); 
+
+    
 
 
     // Start is called before the first frame update
@@ -45,11 +75,40 @@ public class level2Logic : MonoBehaviour
         question1Text.enabled = false;
         answer1Option1.onClick.AddListener(()=> TaskOnClick(answer1Option1.gameObject.tag));
         answer1Option2.onClick.AddListener(()=> TaskOnClick(answer1Option2.gameObject.tag));
+
+        List<GameObject> list1 = new List<GameObject>();
+        list1.Add(question1Stopper);
+        list1.Add(question1Stopper1);
+        list1.Add(question1Stopper2);
+        blockMapping.Add(1, list1);
+        List<GameObject> list2 = new List<GameObject>();
+        list2.Add(question2Stopper);
+        list2.Add(question2Stopper1);
+        list2.Add(question2Stopper2);
+        blockMapping.Add(2, list2);
+        List<GameObject> list3 = new List<GameObject>();
+        list3.Add(question3Stopper);
+        list3.Add(question3Stopper1);
+        list3.Add(question3Stopper2);
+        blockMapping.Add(3, list3);
+        List<GameObject> list4 = new List<GameObject>();
+        list4.Add(question4Stopper);
+        list4.Add(question4Stopper1);
+        list4.Add(question4Stopper2);
+        blockMapping.Add(4, list4);
+        List<GameObject> list5 = new List<GameObject>();
+        list5.Add(question5Stopper);
+        list5.Add(question5Stopper1);
+        list5.Add(question5Stopper2);
+        blockMapping.Add(5, list5);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log(TrollCollision);
+        // Debug.Log(transform.position);
         livesText.enabled = true;
         livesText.text = "Lives Left: " + numberOfLives;
 
@@ -73,7 +132,6 @@ public class level2Logic : MonoBehaviour
 
             else
             {
-                // Debug.Log("Yahan pe change hua?");
                 animation_controller.SetBool("walking",true);
                 animation_controller.SetBool("running",false);
                 animation_controller.SetBool("NoKey",false);
@@ -156,93 +214,105 @@ public class level2Logic : MonoBehaviour
         if(col.tag == "question1Block")
         {
             lastCorrectPlayerPosition = transform.position;
-
-            Debug.Log("collided");
+            Debug.Log("collided with Q1");
+            questionindex = 1;
             Debug.Log(lastCorrectPlayerPosition);
             answer1Option1.gameObject.SetActive(true);
             answer1Option2.gameObject.SetActive(true);
             question1Text.enabled = true;
         }
-
-        if(col.tag == "question1Block2")
+        else if(col.tag == "question2Block")
         {
-            //enemy to start attacking;
-            Debug.Log("here we are");
-            hasCollidedWithBlock = true;
-        }
-        
-        // if(answer1Option1.is_clicked)
-        // {
-        //     Debug.Log("Answer 1 clicked");
-        // }
-        // else if(answer1Option2.is_clicked)
-        // {
-        //     Debug.Log("Answer 2 clicked");
-        // }
-        //write code here now!!!!!
+            lastCorrectPlayerPosition = transform.position;
+            Debug.Log("collided with Q2");
+            questionindex = 2;
+            Debug.Log(lastCorrectPlayerPosition);
+            answer1Option1.GetComponentInChildren<Text>().text =  "Indian";
+            answer1Option2.GetComponentInChildren<Text>().text = "Atlantic";
+            question1Text.text = "Question: In what ocean is the Bermuda Triangle located?";
+            answer1Option1.gameObject.SetActive(true);
+            answer1Option2.gameObject.SetActive(true);
+            question1Text.enabled = true;
 
-        //if button pressed answer 1
-        // {
-        //     display on screen -> correct direction
-        //     mesh collider block deactivate
-        // }
-        //tests
-        //else {
-        //     display wrong direction
-        //     check if collision happens
-        //     activate the npc to move towards the player and the player looses a life
-        //     reset the life and position.
-        // }
+        }
+        else if(col.tag == "question3Block")
+        {
+            lastCorrectPlayerPosition = transform.position;
+            Debug.Log("collided with Q3");
+            questionindex = 3;
+            Debug.Log(lastCorrectPlayerPosition);
+            answer1Option1.GetComponentInChildren<Text>().text =  "Missouri";
+            answer1Option2.GetComponentInChildren<Text>().text = "Hudson";
+            question1Text.text = "Question: What is the name of the longest river in USA?";
+            answer1Option1.gameObject.SetActive(true);
+            answer1Option2.gameObject.SetActive(true);
+            question1Text.enabled = true;
+        }
+        else if(col.tag == "question4Block")
+        {
+            lastCorrectPlayerPosition = transform.position;
+            Debug.Log("collided with Q4");
+            questionindex = 3;
+            Debug.Log(lastCorrectPlayerPosition);
+            answer1Option1.GetComponentInChildren<Text>().text =  "opt1";
+            answer1Option2.GetComponentInChildren<Text>().text = "opt2";
+            question1Text.text = "Question: 4";
+            answer1Option1.gameObject.SetActive(true);
+            answer1Option2.gameObject.SetActive(true);
+            question1Text.enabled = true;
+        }
+        else if(col.tag == "question5Block")
+        {
+            lastCorrectPlayerPosition = transform.position;
+            Debug.Log("collided with Q5");
+            questionindex = 3;
+            Debug.Log(lastCorrectPlayerPosition);
+            answer1Option1.GetComponentInChildren<Text>().text =  "opt 1";
+            answer1Option2.GetComponentInChildren<Text>().text = "opt 2";
+            question1Text.text = "Question: 5";
+            answer1Option1.gameObject.SetActive(true);
+            answer1Option2.gameObject.SetActive(true);
+            question1Text.enabled = true;
+        }
+        else{
+            Debug.Log("Not colliding");
+        }
 
     }
 
     void TaskOnClick(string e){
         
-		Debug.Log ("You have clicked the button!");
-        Debug.Log(e);
+        Debug.Log("Question index"+ questionindex);
+        List<GameObject> list = blockMapping[questionindex];
+	
+        //Question window
+        //question1Block.SetActive(false);
+        //question1Stopper.SetActive(false);
+        GameObject questionStopper = list[0];
+        questionStopper.SetActive(false);
 
-        question1Block.SetActive(false);
-        question1Stopper.SetActive(false);
+        //UI
         question1Text.enabled = false;
         answer1Option1.gameObject.SetActive(false);
         answer1Option2.gameObject.SetActive(false);
-        // question1Stopper.gameObject.SetActive(false);
 
-
-        if(e == "answer1Option1")
+        if(e == "answer1Option1") //opt 1
         {
             Debug.Log("answer 1 has been selected");
-            question1Stopper1.SetActive(false);
-            //Block the wrong path and let it go towards the right path.
+            //question1Stopper1.SetActive(false);
+            GameObject optionStopper = list[1];
+            optionStopper.SetActive(false);
         }
-        else if(e == "answer1Option2")
+        else if(e == "answer1Option2") //opt 2
         {
             Debug.Log("answer 2 has been selected");
-            question1Stopper2.SetActive(false);
-            //attack of npc
-            //take away life
-            //reset player position
+            //question1Stopper2.SetActive(false);
+            GameObject optionStopper = list[2];
+            optionStopper.SetActive(false);
+        
         }
-        //make this.UI disable
-        //make this.stopper disable
-
-        //if option 1 then let it pass through stopper 1 (disable)
-        //else let it pass through stopper 2 (enable)
 	}
-
-    // void OnCollisionEnter(Collision col)
-    // {
-    //     if(col.gameObject.name == "q1")
-    //     {
-    //         Debug.Log("Collided");
-    //     }
-    // }
 }
-// public Button yourButton;
-// void Start () {
-// 		Button btn = yourButton.GetComponent<Button>();
-// 		btn.onClick.AddListener(TaskOnClick);
-// 	}
 
 
 
