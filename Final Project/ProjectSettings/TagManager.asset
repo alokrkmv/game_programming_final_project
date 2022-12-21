@@ -21,6 +21,13 @@ TagManager:
   - question3Stopper2
   - question4Block
   - question5Block
+  - blocker
+  - blocker1
+  - blocker2
+  - blocker3
+  - blocker4
+  - blocker5
+  - winning
   layers:
   - Default
   - TransparentFX
